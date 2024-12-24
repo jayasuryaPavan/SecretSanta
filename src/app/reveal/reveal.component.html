@@ -1,0 +1,7 @@
+<h2>Secret Santa Matches</h2>
+<ul>
+  <li *ngFor="let pair of pairs">
+    {{ pair.santa.name }} ➔ {{ pair.recipient.name }}
+    <img [src]="pair.recipient.image" alt="Recipient Image" style="max-width: 100px;">
+  </li>
+</ul>

@@ -1,0 +1,8 @@
+<h2>Participants</h2>
+<ul>
+  <li *ngFor="let participant of participants">
+    <img [src]="participant.image" alt="Participant Image" style="max-width: 100px;">
+    {{ participant.name }}
+  </li>
+</ul>
+<button mat-raised-button color="primary" (click)="randomizePairs()">Generate Pairs</button>
