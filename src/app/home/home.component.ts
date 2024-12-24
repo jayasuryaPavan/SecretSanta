@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ParticipantService } from '../../participant.service';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -15,13 +14,13 @@ export class HomeComponent implements OnInit {
   participants: any[] = [];
   pairs: any[] = [];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private participantService : ParticipantService, private router: Router) {}
 
   ngOnInit() {
     // Load participants from JSON file
-    this.http.get<any[]>('assets/participants.json').subscribe((data) => {
-      this.participants = data;
-    });
+    // this.http.get<any[]>('assets/participants.json').subscribe((data) => {
+    //   this.participants = data;
+    // });
   }
 
   randomizePairs() {
