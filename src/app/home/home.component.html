@@ -1,10 +1,14 @@
 <div class="container">
   <h1>Secret Santa Game</h1>
-  <button mat-raised-button color="primary" (click)="selectRandomParticipant()">Select Random Participant</button>
+  <button mat-raised-button color="primary" (click)="selectRandomParticipant()">Call Participant</button>
 
-  <div *ngIf="selectedParticipant" class="participant-card">
+  <div *ngIf="allDone">
+    <h2>All participants are done!</h2>
+  </div>
+
+  <div *ngIf="selectedParticipant && !allDone" class="participant-card">
     <h2>Selected Participant: {{ selectedParticipant.name }}</h2>
-    <img [src]="getImage(selectedParticipant.id)" alt="{{ selectedParticipant.name }}" />
+    <img [src]="getImage(selectedParticipant)" alt="{{ selectedParticipant.name }}" />
 
     <div *ngIf="!isRevealed">
       <p>Guess the Santa:</p>

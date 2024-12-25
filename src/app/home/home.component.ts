@@ -14,23 +14,34 @@ import { ParticipantService } from '../services/participant.service';
 export class HomeComponent implements OnInit {
 
   participants: any[] = [];
+  availableParticipants: any[] = [];
   selectedParticipant: any = null;
   guessedSanta: string = '';
   isRevealed: boolean = false;
+  allDone: boolean = false;
 
   constructor(private participantService: ParticipantService) {
   }
 
   ngOnInit(): void {
     this.participants = this.participantService.getParticipants();
+    this.availableParticipants = [...this.participants]; // Clone the list to track available participants
   }
 
   // Select a random participant
   selectRandomParticipant() {
-    const randomIndex = Math.floor(Math.random() * this.participants.length);
-    this.selectedParticipant = this.participants[randomIndex];
+    if (this.availableParticipants.length === 0) {
+      this.allDone = true;
+      this.selectedParticipant = null;
+      return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * this.availableParticipants.length);
+    this.selectedParticipant = this.availableParticipants[randomIndex];
+    this.availableParticipants.splice(randomIndex, 1); // Remove the selected participant
     this.guessedSanta = '';
     this.isRevealed = false;
+    this.allDone = false;
   }
 
   // Reveal the Santa
