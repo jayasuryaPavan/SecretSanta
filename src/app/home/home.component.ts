@@ -1,35 +1,47 @@
 import { Component, OnInit } from '@angular/core';
-import { ParticipantService } from '../../participant.service';
-import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { participants } from '../assets/participants';
+import { ParticipantService } from '../services/participant.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
+
   participants: any[] = [];
-  pairs: any[] = [];
+  selectedParticipant: any = null;
+  guessedSanta: string = '';
+  isRevealed: boolean = false;
 
-  constructor(private participantService : ParticipantService, private router: Router) {}
-
-  ngOnInit() {
-    // Load participants from JSON file
-    // this.http.get<any[]>('assets/participants.json').subscribe((data) => {
-    //   this.participants = data;
-    // });
+  constructor(private participantService: ParticipantService) {
   }
 
-  randomizePairs() {
-    const shuffled = [...this.participants].sort(() => Math.random() - 0.5);
-    this.pairs = shuffled.map((santa, i) => ({
-      santa: shuffled[i],
-      recipient: shuffled[(i + 1) % shuffled.length],
-    }));
-    localStorage.setItem('pairs', JSON.stringify(this.pairs));
-    this.router.navigate(['/reveal']);
+  ngOnInit(): void {
+    this.participants = this.participantService.getParticipants();
   }
+
+  // Select a random participant
+  selectRandomParticipant() {
+    const randomIndex = Math.floor(Math.random() * this.participants.length);
+    this.selectedParticipant = this.participants[randomIndex];
+    this.guessedSanta = '';
+    this.isRevealed = false;
+  }
+
+  // Reveal the Santa
+  revealSanta() {
+    this.isRevealed = true;
+  }
+
+  // Get the image for a participant
+  getImage(participant: any) {
+    let id  = participants.find(p => p.name === participant.santa)?.id;
+    return this.participantService.getImageById(id);
+  }
+
 }

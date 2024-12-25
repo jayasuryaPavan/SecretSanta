@@ -12,9 +12,6 @@ export class RevealComponent implements OnInit {
   pairs: any[] = [];
 
   ngOnInit() {
-    const storedPairs = localStorage.getItem('pairs');
-    if (storedPairs) {
-      this.pairs = JSON.parse(storedPairs);
-    }
+    
   }
 }
