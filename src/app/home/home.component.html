@@ -1,0 +1,24 @@
+<div class="container">
+  <h1>Secret Santa Game</h1>
+  <button mat-raised-button color="primary" (click)="selectRandomParticipant()">Call Participant</button>
+
+  <div *ngIf="allDone">
+    <h2>All participants are done!</h2>
+  </div>
+
+  <div *ngIf="selectedParticipant && !allDone" class="participant-card">
+    <h2>Selected Participant: {{ selectedParticipant.name }}</h2>
+    <img [src]="getImage(selectedParticipant)" alt="{{ selectedParticipant.name }}" />
+
+    <div *ngIf="!isRevealed">
+      <p>Guess the Santa:</p>
+      <input matInput placeholder="Enter Santa's name" [(ngModel)]="guessedSanta" />
+      <button mat-raised-button color="accent" (click)="revealSanta()">Reveal Santa</button>
+    </div>
+
+    <div *ngIf="isRevealed">
+      <h3>Your Santa: {{ selectedParticipant.santa }}</h3>
+      <img [src]="getImage(selectedParticipant)" alt="Santa's Image" />
+    </div>
+  </div>
+</div>
